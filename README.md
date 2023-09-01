@@ -1,4 +1,4 @@
-# Predictability of linguistic complexity
+# How predictable is linguistic complexity?
 
 ![Morphology vs Syntax CCLAMP Time series](https://github.com/julienijs/Predictability_of_Complexity/assets/107923146/cf981857-c67d-404c-942d-f9116301b123)
 
