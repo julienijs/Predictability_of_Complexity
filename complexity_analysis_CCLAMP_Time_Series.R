@@ -146,4 +146,10 @@ doubleYScale(m, s, add.ylab2 = TRUE, use.style=TRUE)
 doubleYScale(m, p, add.ylab2 = TRUE, use.style=TRUE)
 doubleYScale(s, p, add.ylab2 = TRUE, use.style=TRUE)
 
+y <- ggplot(morph_and_synt, aes(x = Population, y = Morphology))+
+  xlab("Population size")+
+  ylab("Mean morphological complexity ratio")+
+  geom_point()
+y
+
 
