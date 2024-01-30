@@ -63,11 +63,15 @@ x <- ggplot(morph_and_synt, aes(x = synt_means, y = morph_means))+
 x
 
 #### Time series analysis ####
-ggplot(morph_and_synt, aes(x = year, y = morph_means)) + geom_line()
 
-morph_and_synt$decade <- morph_and_synt$year - morph_and_synt$year %% 10 # calculate decades
+# visualization
+ggplot(morph_and_synt, aes(x = year, y = morph_means)) + geom_line()
+ggplot(morph_and_synt, aes(x = year, y = synt_means)) + geom_line()
+
 
 # make time series for morphology means
+morph_and_synt$decade <- morph_and_synt$year - morph_and_synt$year %% 10 # calculate decades
+
 morph_dec_ts <- ts((morph_and_synt %>% 
                       group_by(decade) %>% 
                       summarise(Morphology = mean(Morphology)))[,2])
@@ -76,46 +80,47 @@ plot(morph_dec_ts)
 CADFtest(morph_dec_ts) # not significant: no unit root
 
 morph_ts <- ts(morph_and_synt$Morphology)
-morph_without_first_ts <- morph_ts[-1]
-
 plot(morph_ts)
 CADFtest(morph_ts) # not significant: no unit root
 
-morph_diff_ts <- diff(morph_ts) # detrending
-
 # make time series for syntax means
-ggplot(morph_and_synt, aes(x = year, y = synt_means)) + geom_line()
-
 synt_dec_ts <- ts((morph_and_synt %>% 
                      group_by(decade) %>% 
                      summarise(Syntax = mean(Syntax)))[,2])
 
-synt_ts <- ts(morph_and_synt$Syntax)
-synt_without_first_ts <- synt_ts[-1]
-
 plot(synt_dec_ts)
 CADFtest(synt_dec_ts)
 
-synt_diff_ts <- diff(synt_ts) # detrending
+synt_ts <- ts(morph_and_synt$Syntax)
+plot(synt_ts)
+CADFtest(synt_ts) # not significant: no unit root
 
-# granger causality test
-grangertest(synt_ts ~ morph_ts, order = 1)
-grangertest(morph_ts ~ synt_ts, order = 1)
+# granger causality tests
+grangertest(synt_ts ~ morph_ts, order = 3)
+grangertest(morph_ts ~ synt_ts, order = 3)
 
-grangertest(synt_dec_ts ~ morph_dec_ts, order = 1)
-grangertest(morph_dec_ts ~ synt_dec_ts, order = 1)
-
-grangertest(synt_diff_ts ~ morph_diff_ts, order = 3)
-grangertest(morph_diff_ts ~ synt_diff_ts, order = 3)
+grangertest(synt_dec_ts ~ morph_dec_ts, order = 3)
+grangertest(morph_dec_ts ~ synt_dec_ts, order = 3)
 
 # Visualization:
 
 library(latticeExtra)
 
-tsDF <- data.frame(Year = seq(from = 1838, to = 1999, by = 1),
-                   "Syntax" = synt_without_first_ts,
-                   "Morphology" = morph_without_first_ts)
+# Year plot
+tsDF <- data.frame(Year = seq(from = 1837, to = 1999, by = 1),
+                   "Syntax" = synt_ts,
+                   "Morphology" = morph_ts)
 
-m <- xyplot(Morphology ~ Year, tsDF, type = "l" , lwd=2)
-s <- xyplot(Syntax ~ Year, tsDF, type = "l", lwd=2)
+m <- xyplot(Morphology ~ Year, tsDF, type = "l", lwd = 2, ylab = "Morphological complexity")
+s <- xyplot(Syntax ~ Year, tsDF, type = "l", lwd = 2, ylab = "Word order rigidity")
+doubleYScale(m, s, add.ylab2 = TRUE, use.style=TRUE)
+
+
+# Decade plot
+ts_dec_DF <- data.frame(Year = seq(from = 1830, to = 1990, by = 10),
+                   "Syntax" = synt_dec_ts,
+                   "Morphology" = morph_dec_ts)
+
+m <- xyplot(Morphology ~ Year, ts_dec_DF, type = "l" , lwd=2, ylab = "Morphological complexity")
+s <- xyplot(Syntax ~ Year, ts_dec_DF, type = "l", lwd=2, ylab = "Word order rigidity")
 doubleYScale(m, s, add.ylab2 = TRUE, use.style=TRUE)
