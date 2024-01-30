@@ -96,11 +96,11 @@ plot(synt_ts)
 CADFtest(synt_ts) # not significant: no unit root
 
 # granger causality tests
-grangertest(synt_ts ~ morph_ts, order = 3)
-grangertest(morph_ts ~ synt_ts, order = 3)
+grangertest(synt_ts ~ morph_ts, order = 1)
+grangertest(morph_ts ~ synt_ts, order = 1)
 
-grangertest(synt_dec_ts ~ morph_dec_ts, order = 3)
-grangertest(morph_dec_ts ~ synt_dec_ts, order = 3)
+grangertest(synt_dec_ts ~ morph_dec_ts, order = 1)
+grangertest(morph_dec_ts ~ synt_dec_ts, order = 1)
 
 # Visualization:
 
