@@ -12,7 +12,7 @@ Following Juola (2008) and Ehret (2017), we use Kolmogorov complexity (1968) to 
 We analyze the data through Granger causality (Rosemeyer & Van de Velde 2021), a technique that aims to determine the causal precedence between two time series A and B. The R script applies this technique on the data sets generated from C-CLAMP.
 
 ## Results
-![Morphology vs Syntax CCLAMP Time series](https://github.com/julienijs/Predictability_of_Complexity/assets/107923146/cf981857-c67d-404c-942d-f9116301b123)
+![Morphology vs Syntax CCLAMP Time series](https://github.com/julienijs/Predictability_of_Complexity/blob/main/Plots/morphology_word_order_time_series.png)
 
 ## References
 For more about information theory and Granger Causality:
