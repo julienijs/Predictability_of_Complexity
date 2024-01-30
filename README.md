@@ -1,12 +1,10 @@
 # How predictable is linguistic complexity?
 
-This research tries to answer two questions:
+This research tries to answer following question:
 
-1. Changes in the morphological complexity of a language cause changes in the syntactic complexity of a language.
+Do changes in the morphological complexity of a language cause changes in the syntactic complexity of a language?
 
-2. Population changes cause changes in the morphological and/or syntactic complexity of a language.
-
-We test these hypotheses on C-CLAMP, a corpus of Dutch texts from 1837 till 1999 (Piersoul, De Troij & Van de Velde 2021). The corpus contains excerpts from cultural and literary magazines written in Belgium and The Netherlands, and metadata of the birthplace of the authors. Because we work with comparable data instead of parallel data, equally big samples of 1000 sentences were taken from each text.
+We test these hypotheses on C-CLAMP, a corpus of Dutch texts from 1837 till 1999 (Piersoul, De Troij & Van de Velde 2021). The corpus contains excerpts from cultural and literary magazines written in Belgium and The Netherlands.
 
 Following Juola (2008) and Ehret (2017), we use Kolmogorov complexity (1968) to access morphological and syntactic complexity. For the calculation process and how the data sets were generated see [this repository](https://github.com/julienijs/Linguistic-complexity).
 
@@ -15,9 +13,6 @@ We analyze the data through Granger causality (Rosemeyer & Van de Velde 2021), a
 
 ## Results
 ![Morphology vs Syntax CCLAMP Time series](https://github.com/julienijs/Predictability_of_Complexity/assets/107923146/cf981857-c67d-404c-942d-f9116301b123)
-
-
-![Morphology vs Population CCLAMP time series](https://github.com/julienijs/Predictability_of_Complexity/assets/107923146/3c5c7ef6-1d1f-4ab9-b65d-bcbd17c68f2b)
 
 ## References
 For more about information theory and Granger Causality:
