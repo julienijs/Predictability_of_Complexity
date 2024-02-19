@@ -89,15 +89,21 @@ synt_dec_ts <- ts((morph_and_synt %>%
                      summarise(Syntax = mean(Syntax)))[,2])
 
 plot(synt_dec_ts)
-CADFtest(synt_dec_ts)
+CADFtest(synt_dec_ts) # not significant: no unit root
 
 synt_ts <- ts(morph_and_synt$Syntax)
 plot(synt_ts)
-CADFtest(synt_ts) # not significant: no unit root
+CADFtest(synt_ts) # significant
+
+synt_diff_ts <- diff(synt_ts) # detrending
+morph_diff_ts <- diff(morph_ts) # detrending
 
 # granger causality tests
 grangertest(synt_ts ~ morph_ts, order = 1)
 grangertest(morph_ts ~ synt_ts, order = 1)
+
+grangertest(synt_diff_ts ~ morph_diff_ts, order = 1)
+grangertest(morph_diff_ts ~ synt_diff_ts, order = 1)
 
 grangertest(synt_dec_ts ~ morph_dec_ts, order = 1)
 grangertest(morph_dec_ts ~ synt_dec_ts, order = 1)
