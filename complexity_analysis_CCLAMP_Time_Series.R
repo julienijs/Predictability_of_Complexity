@@ -131,22 +131,22 @@ z_scored_synt <- scale(synt_ts)
 # Determine the range of y-values
 y_range <- range(z_scored_morph, z_scored_synt)
 
+# Create a sequence for the years
+years <- seq(1837, 1999, by = 1)
+
 # Create a plot without drawing the x-axis
-plot(z_scored_morph, type = "l", lty = 1, ylim = y_range, 
+plot(years, z_scored_morph, type = "l", lty = 1, ylim = y_range, 
      ylab = "Z-Scored Values", 
-     xlab = "Time", 
-     xaxt = "n")  # Suppress drawing of the x-axis
+     xlab = "Year",  # Change x-axis label
+     xaxt = "n")    # Suppress drawing of x-axis ticks
 
+# Add the second time series
+lines(years, z_scored_synt, type = "l", lty = 2)
 
-# Add the second z-scored time series to the plot with a different line type
-lines(z_scored_synt, lty = 2)
+# Add x-axis ticks
+axis(1, at = seq(1837, 1999, by = 20), labels = seq(1837, 1999, by = 20))
 
-# Add a legend
-legend("topright", legend = c("Morphological complexity", "Word order rigidity"), lty = c(1, 2))
+# Add legend
+legend("topright", legend = c("Morph", "Synt"), lty = c(1, 2), col = c(1, 2))
 
-# Add years to the plot
-years <- seq(1837, 1999, by = 10)
-# Calculate the positions of the ticks
-tick_positions <- seq(1, length(z_scored_morph), length.out = length(years))
-axis(1, at = tick_positions, labels = years)
 
