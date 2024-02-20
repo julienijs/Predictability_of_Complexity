@@ -147,6 +147,4 @@ lines(years, z_scored_synt, type = "l", lty = 2)
 axis(1, at = seq(1837, 1999, by = 20), labels = seq(1837, 1999, by = 20))
 
 # Add legend
-legend("topright", legend = c("Morph", "Synt"), lty = c(1, 2))
-
-
+legend("topright", legend = c("Morphological complexity", "Word order rigidity"), lty = c(1, 2), cex = 0.8)
