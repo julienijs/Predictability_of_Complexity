@@ -79,7 +79,7 @@ morph_dec_ts <- ts((morph_and_synt %>%
 plot(morph_dec_ts)
 CADFtest(morph_dec_ts) # not significant: no unit root
 
-morph_ts <- ts(morph_and_synt$Morphology)
+morph_ts <- ts(morph_and_synt$Morphology, start = 1837, frequency = 1)
 plot(morph_ts)
 CADFtest(morph_ts) # not significant: no unit root
 
@@ -91,7 +91,7 @@ synt_dec_ts <- ts((morph_and_synt %>%
 plot(synt_dec_ts)
 CADFtest(synt_dec_ts) # not significant: no unit root
 
-synt_ts <- ts(morph_and_synt$Syntax)
+synt_ts <- ts(morph_and_synt$Syntax, start = 1837, frequency = 1)
 plot(synt_ts)
 CADFtest(synt_ts) # significant
 
@@ -122,11 +122,29 @@ s <- xyplot(Syntax ~ Year, tsDF, type = "l", lwd = 2, ylab = "Word order rigidit
 doubleYScale(m, s, add.ylab2 = TRUE, use.style=TRUE)
 
 
-# Decade plot
-ts_dec_DF <- data.frame(Year = seq(from = 1830, to = 1990, by = 10),
-                   "Syntax" = synt_dec_ts,
-                   "Morphology" = morph_dec_ts)
+# Z-scored plot
 
-m <- xyplot(Morphology ~ Year, ts_dec_DF, type = "l" , lwd=2, ylab = "Morphological complexity")
-s <- xyplot(Syntax ~ Year, ts_dec_DF, type = "l", lwd=2, ylab = "Word order rigidity")
-doubleYScale(m, s, add.ylab2 = TRUE, use.style=TRUE)
+# Assuming morph_ts and synt_ts are your time series data
+
+# Z-score the time series
+z_scored_morph <- scale(morph_ts)
+z_scored_synt <- scale(synt_ts)
+
+# Create a plot with the first z-scored time series
+plot(z_scored_morph, type = "l", lty = 1, ylim = c(-3, 3), 
+     ylab = "Z-Scored Values", 
+     xlab = "Time",
+     xaxt = "n")
+
+# Add the second z-scored time series to the plot with a different line type
+lines(z_scored_synt, lty = 2)
+
+# Add a legend
+legend("topright", legend = c("Morphological complexity", "Word order rigidity"), lty = c(1, 2))
+
+# Add years to the plot
+years <- seq(1837, 1999, by = 20)
+# Calculate the positions of the ticks
+tick_positions <- seq(1, length(z_scored_morph), length.out = length(years))
+axis(1, at = tick_positions, labels = years)
+
