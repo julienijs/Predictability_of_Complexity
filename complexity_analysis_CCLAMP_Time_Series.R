@@ -124,17 +124,19 @@ doubleYScale(m, s, add.ylab2 = TRUE, use.style=TRUE)
 
 # Z-scored plot
 
-# Assuming morph_ts and synt_ts are your time series data
-
 # Z-score the time series
 z_scored_morph <- scale(morph_ts)
 z_scored_synt <- scale(synt_ts)
 
-# Create a plot with the first z-scored time series
-plot(z_scored_morph, type = "l", lty = 1, ylim = c(-3, 3), 
+# Determine the range of y-values
+y_range <- range(z_scored_morph, z_scored_synt)
+
+# Create a plot without drawing the x-axis
+plot(z_scored_morph, type = "l", lty = 1, ylim = y_range, 
      ylab = "Z-Scored Values", 
-     xlab = "Time",
-     xaxt = "n")
+     xlab = "Time", 
+     xaxt = "n")  # Suppress drawing of the x-axis
+
 
 # Add the second z-scored time series to the plot with a different line type
 lines(z_scored_synt, lty = 2)
@@ -143,7 +145,7 @@ lines(z_scored_synt, lty = 2)
 legend("topright", legend = c("Morphological complexity", "Word order rigidity"), lty = c(1, 2))
 
 # Add years to the plot
-years <- seq(1837, 1999, by = 20)
+years <- seq(1837, 1999, by = 10)
 # Calculate the positions of the ticks
 tick_positions <- seq(1, length(z_scored_morph), length.out = length(years))
 axis(1, at = tick_positions, labels = years)
