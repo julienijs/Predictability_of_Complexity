@@ -1,4 +1,4 @@
-setwd("C:/Users/u0149275/OneDrive - KU Leuven/Complexity/DTA_1800-1999")
+setwd("./Datasets")
 
 library(readxl)
 library(ggplot2)
