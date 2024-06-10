@@ -4,12 +4,12 @@ This research tries to answer following question:
 
 Do changes in the morphological complexity of a language cause changes in the syntactic complexity of a language?
 
-We test these hypotheses on C-CLAMP, a corpus of Dutch texts from 1837 till 1999 (Piersoul, De Troij & Van de Velde 2021). The corpus contains excerpts from cultural and literary magazines written in Belgium and The Netherlands.
+I test these hypotheses on several diachronic corpora: C-CLAMP, CLMET, DTA and COHA.
 
 Following Juola (2008) and Ehret (2017), we use Kolmogorov complexity (1968) to access morphological and syntactic complexity. For the calculation process and how the data sets were generated see [this repository](https://github.com/julienijs/Linguistic-complexity).
 
 ## Data sets & code
-We analyze the data through Granger causality (Rosemeyer & Van de Velde 2021), a technique that aims to determine the causal precedence between two time series A and B. The R script applies this technique on the data sets generated from C-CLAMP.
+We analyze the data through Granger causality (Rosemeyer & Van de Velde 2021), a technique that aims to determine the causal precedence between two time series A and B. The R script applies this technique on the data sets.
 
 ## Results
 ![Morphology vs Syntax CCLAMP Time series](https://github.com/julienijs/Predictability_of_Complexity/blob/main/Plots/morphology_word_order_time_series.png)
