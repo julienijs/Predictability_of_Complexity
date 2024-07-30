@@ -190,7 +190,7 @@ plot(z_scored_morph, type = "l", lty = 1, ylim = c(-3, 3),
 lines(z_scored_synt, lty = 2)
 
 # Add a legend
-legend("topright", legend = c("Morphological complexity", "Word order rigidity"), lty = c(1, 2))
+legend("topright", legend = c("Morphological complexity", "Word order rigidity"), lty = c(1, 2), cex = 0.5)
 
 # Add years to the plot
 years <- seq(1710, 1890, by = 10)
