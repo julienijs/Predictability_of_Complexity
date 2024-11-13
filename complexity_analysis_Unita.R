@@ -134,11 +134,6 @@ plot(synt_ts)
 synt_diff_ts <- diff(synt_ts) # detrending
 
 # granger causality test
-grangertest(synt_diff_ts ~ morph_diff_ts, order = 1)
-grangertest(morph_diff_ts ~ synt_diff_ts, order = 1)
-
-grangertest(synt_ts ~ morph_ts, order = 2)
-grangertest(morph_ts ~ synt_ts, order = 2)
 
 for (x in 1:10) {
   print(grangertest(morph_ts ~ synt_ts, order = x))
