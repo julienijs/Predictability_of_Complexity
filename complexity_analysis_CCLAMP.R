@@ -70,27 +70,11 @@ ggplot(morph_and_synt, aes(x = year, y = synt_means)) + geom_line()
 
 
 # make time series for morphology means
-morph_and_synt$decade <- morph_and_synt$year - morph_and_synt$year %% 10 # calculate decades
-
-morph_dec_ts <- ts((morph_and_synt %>% 
-                      group_by(decade) %>% 
-                      summarise(Morphology = mean(Morphology)))[,2])
-
-plot(morph_dec_ts)
-CADFtest(morph_dec_ts) # not significant: no unit root
-
 morph_ts <- ts(morph_and_synt$Morphology, start = 1837, frequency = 1)
 plot(morph_ts)
 CADFtest(morph_ts) # not significant: no unit root
 
 # make time series for syntax means
-synt_dec_ts <- ts((morph_and_synt %>% 
-                     group_by(decade) %>% 
-                     summarise(Syntax = mean(Syntax)))[,2])
-
-plot(synt_dec_ts)
-CADFtest(synt_dec_ts) # not significant: no unit root
-
 synt_ts <- ts(morph_and_synt$Syntax, start = 1837, frequency = 1)
 plot(synt_ts)
 CADFtest(synt_ts) # significant
@@ -99,14 +83,22 @@ synt_diff_ts <- diff(synt_ts) # detrending
 morph_diff_ts <- diff(morph_ts) # detrending
 
 # granger causality tests
-grangertest(synt_ts ~ morph_ts, order = 1)
-grangertest(morph_ts ~ synt_ts, order = 1)
+for (x in 1:10) {
+  print(grangertest(morph_ts ~ synt_ts, order = x))
+}
 
-grangertest(synt_diff_ts ~ morph_diff_ts, order = 1)
-grangertest(morph_diff_ts ~ synt_diff_ts, order = 1)
+for (x in 1:10) {
+  print(grangertest(synt_ts ~ morph_ts, order = x))
+}
 
-grangertest(synt_dec_ts ~ morph_dec_ts, order = 1)
-grangertest(morph_dec_ts ~ synt_dec_ts, order = 1)
+for (x in 1:10) {
+  print(grangertest(morph_diff_ts ~ synt_diff_ts, order = x))
+}
+
+for (x in 1:10) {
+  print(grangertest(synt_diff_ts ~ morph_diff_ts, order = x))
+}
+
 
 # Visualization:
 

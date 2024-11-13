@@ -117,16 +117,19 @@ scp
 
 #### Time series analysis ####
 
-# make time series for morphology means
-morph_ts <- ts(morph_and_synt$morph, start = 1600, frequency = 0.1)
+morph_and_synt <- morph_and_synt[morph_and_synt$year >= 1600 & morph_and_synt$year <= 1940, ]
 
-CADFtest(morph_ts) # significant
+
+# make time series for morphology means
+morph_ts <- ts(morph_and_synt$morph)
+
+CADFtest(morph_ts) # not significant
 plot(morph_ts)
 
 morph_diff_ts <- diff(morph_ts) # detrending
 
 # make time series for syntax means
-synt_ts <- ts(morph_and_synt$synt, start = 1600, frequency = 0.1)
+synt_ts <- ts(morph_and_synt$synt)
 
 CADFtest(synt_ts) # significant
 plot(synt_ts)
@@ -140,19 +143,19 @@ grangertest(morph_diff_ts ~ synt_diff_ts, order = 1)
 grangertest(synt_ts ~ morph_ts, order = 1)
 grangertest(morph_ts ~ synt_ts, order = 1)
 
-for (x in 1:10) {
+for (x in 1:5) {
   print(grangertest(morph_ts ~ synt_ts, order = x))
 }
 
-for (x in 1:10) {
+for (x in 1:5) {
   print(grangertest(synt_ts ~ morph_ts, order = x))
 }
 
-for (x in 1:10) {
+for (x in 1:5) {
   print(grangertest(morph_diff_ts ~ synt_diff_ts, order = x))
 }
 
-for (x in 1:10) {
+for (x in 1:5) {
   print(grangertest(synt_diff_ts ~ morph_diff_ts, order = x))
 }
 

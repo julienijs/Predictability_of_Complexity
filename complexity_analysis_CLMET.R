@@ -12,33 +12,26 @@ library(CADFtest)
 #### morphology ####
 
 # read data
-morph_data <- read_xlsx("zipped_morphology_CLMET.xlsx", col_names = TRUE)
+morph_data <- read_xlsx("CLMET_Morph_Zipped.xlsx", col_names = TRUE)
 zipped <- read_xlsx("CLMET_Zipped_Sizes.xlsx", col_names = TRUE)
-metadata <- read_xlsx("CLMET_Metadata.xlsx", col_names = TRUE)
 
 # merge data
 morph_total <- merge(zipped, morph_data, by="...1")
 
-names(morph_total)[names(morph_total) == '0'] <- 'file'
-
-morph_total <- merge(morph_total, metadata, by="file")
-
 # make all numbers negative
-morph_total[,5:104] <- morph_total[,5:104]*(-1)
+morph_total[,6:105] <- morph_total[,6:105]*(-1)
 # divide by full zipped size to get complexity ratio
-morph_total[,5:104] <- morph_total[,5:104]/morph_total[,4]
+morph_total[,6:105] <- morph_total[,6:105]/morph_total[,4]
 # get means for each row = get mean complexity ratio
-morph_means <- rowMeans(morph_total[,5:104])
+morph_means <- rowMeans(morph_total[,6:105])
 # add mean complexity ratios to data frame
 morph_total$morph_means <- morph_means
 # get standard deviations
-morph_std = rowSds(as.matrix(morph_total[,5:104]))
+morph_std = rowSds(as.matrix(morph_total[,6:105]))
 
 
 # linear model
 morph_model <- lm(morph_means ~ year, data=morph_total)
-morph_model <- lm(morph_means ~ genre, data=morph_total)
-morph_model <- lm(morph_means ~ year*genre, data=morph_total)
 summary(morph_model)
 plot(allEffects(morph_model))
 
@@ -65,29 +58,23 @@ ml
 #### Syntax ####
 
 # read data
-synt_data <- read_xlsx("zipped_syntax_CLMET.xlsx", col_names = TRUE)
+synt_data <- read_xlsx("CLMET_Synt_Zipped.xlsx", col_names = TRUE)
 # merge data
 synt_total <- merge(zipped, synt_data, by="...1")
 
-names(synt_total)[names(synt_total) == '0'] <- 'file'
-
-synt_total <- merge(synt_total, metadata, by="file")
-
 
 # divide by full zipped size to get complexity ratio
-synt_total[,5:104] <- synt_total[,5:104]/synt_total[,4]
+synt_total[,6:105] <- synt_total[,6:105]/synt_total[,4]
 # get means for each row = get mean complexity ratio
-synt_means <- rowMeans(synt_total[,5:104])
+synt_means <- rowMeans(synt_total[,6:105])
 # add mean complexity ratios to data frame
 synt_total$synt_means <- synt_means
 # get standard deviations
-synt_std = rowSds(as.matrix(synt_total[,5:104]))
+synt_std = rowSds(as.matrix(synt_total[,6:105]))
 
 
 # linear model
 synt_model <- lm(synt_means ~ year, data=synt_total)
-synt_model <- lm(synt_means ~ genre, data=synt_total)
-synt_model <- lm(synt_means ~ genre*year, data=synt_total)
 summary(synt_model)
 plot(allEffects(synt_model))
 
@@ -132,12 +119,8 @@ scp
 
 #### Time series analysis ####
 
-morph_and_synt$decade <- morph_and_synt$year - morph_and_synt$year %% 10 # calculate decades
-
 # make time series for morphology means
-morph_ts <- ts((morph_and_synt %>% 
-                  group_by(decade) %>% 
-                  summarise(Morphology = mean(Morphology)))[,2])
+morph_ts <- ts(morph_and_synt$Morphology)
 
 CADFtest(morph_ts) # significant
 plot(morph_ts)
@@ -145,9 +128,7 @@ plot(morph_ts)
 morph_diff_ts <- diff(morph_ts) # detrending
 
 # make time series for syntax means
-synt_ts <- ts((morph_and_synt %>% 
-                 group_by(decade) %>% 
-                 summarise(Syntax = mean(Syntax)))[,2])
+synt_ts <- ts(morph_and_synt$Syntax)
 
 CADFtest(synt_ts) # not significant: no unit root
 plot(synt_ts)
@@ -155,11 +136,21 @@ plot(synt_ts)
 synt_diff_ts <- diff(synt_ts) # detrending
 
 # granger causality test
-grangertest(synt_ts ~ morph_ts, order = 1)
-grangertest(morph_ts ~ synt_ts, order = 1)
+for (x in 1:5) {
+  print(grangertest(morph_ts ~ synt_ts, order = x))
+}
 
-grangertest(synt_diff_ts ~ morph_diff_ts, order = 6)
-grangertest(morph_diff_ts ~ synt_diff_ts, order = 6)
+for (x in 1:5) {
+  print(grangertest(synt_ts ~ morph_ts, order = x))
+}
+
+for (x in 1:5) {
+  print(grangertest(morph_diff_ts ~ synt_diff_ts, order = x))
+}
+
+for (x in 1:5) {
+  print(grangertest(synt_diff_ts ~ morph_diff_ts, order = x))
+}
 
 # Visualization:
 
