@@ -6,7 +6,7 @@ Do changes in the morphological complexity of a language cause changes in the sy
 
 I test these hypotheses on several diachronic corpora: C-CLAMP, CLMET, DTA, COHA, Frantext and L'Unità corpus.
 
-Following Juola (2008) and Ehret (2017), we use Kolmogorov complexity (1968) to access morphological and syntactic complexity (see also [this repository](https://github.com/julienijs/Linguistic-complexity).
+Following Juola (2008) and Ehret (2017), we use Kolmogorov complexity (1968) to access morphological and syntactic complexity (see also [this repository](https://github.com/julienijs/Linguistic-complexity)).
 
 ## Data sets & code
 We analyze the data through Granger causality (Rosemeyer & Van de Velde 2021), a technique that aims to determine the causal precedence between two time series A and B. The R scripts apply this technique on the data sets. The data sets contain complexity calculations (Kolmogorov Complexity), derived from samples of different corpora. Both the data cleaning/sampling and the complexity calculations were done with Python scripts (see map 'Python_scripts'). 
