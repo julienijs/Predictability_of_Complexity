@@ -123,6 +123,9 @@ z_scored_synt <- scale(synt_ts)
 # Determine the range of y-values
 y_range <- range(z_scored_morph, z_scored_synt)
 
+# Adjust margins to allow space below the plot for the legend
+par(mar = c(8, 4, 2, 2))  # Increase the bottom margin to 8
+
 # Create a sequence for the years
 years <- seq(1837, 1999, by = 1)
 
@@ -139,4 +142,5 @@ lines(years, z_scored_synt, type = "l", lty = 2)
 axis(1, at = seq(1837, 1999, by = 20), labels = seq(1837, 1999, by = 20))
 
 # Add legend
-legend("topright", legend = c("Morphological complexity", "Word order rigidity"), lty = c(1, 2), cex = 0.5)
+legend("bottom", legend = c("Morphological complexity", "Word order rigidity"), 
+       lty = c(1, 2), cex = 0.8, inset = c(0, -0.35), xpd = TRUE, horiz = TRUE)

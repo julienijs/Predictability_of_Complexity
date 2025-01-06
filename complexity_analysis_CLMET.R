@@ -160,8 +160,8 @@ tsDF <- data.frame(Decade = seq(from = 1710, to = 1920, by = 10),
                    "syntax" = synt_ts,
                    "morphology" = morph_ts)
 
-m <- xyplot(Morphology ~ Decade, tsDF, type = "l" , lwd=2)
-s <- xyplot(Syntax ~ Decade, tsDF, type = "l", lwd=2)
+m <- xyplot(morphology ~ Decade, tsDF, type = "l" , lwd=2)
+s <- xyplot(syntax ~ Decade, tsDF, type = "l", lwd=2)
 doubleYScale(m, s, add.ylab2 = TRUE, use.style=TRUE)
 
 
@@ -170,6 +170,9 @@ doubleYScale(m, s, add.ylab2 = TRUE, use.style=TRUE)
 # Z-score the time series
 z_scored_morph <- scale(morph_ts)
 z_scored_synt <- scale(synt_ts)
+
+# Adjust margins to allow space below the plot for the legend
+par(mar = c(8, 4, 2, 2))  # Increase the bottom margin to 8
 
 # Create a plot with the first z-scored time series
 plot(z_scored_morph, type = "l", lty = 1, ylim = c(-3, 3), 
@@ -181,7 +184,8 @@ plot(z_scored_morph, type = "l", lty = 1, ylim = c(-3, 3),
 lines(z_scored_synt, lty = 2)
 
 # Add a legend
-legend("topright", legend = c("Morphological complexity", "Word order rigidity"), lty = c(1, 2), cex = 0.5)
+legend("bottom", legend = c("Morphological complexity", "Word order rigidity"), 
+       lty = c(1, 2), cex = 0.8, inset = c(0, -0.35), xpd = TRUE, horiz = TRUE)
 
 # Add years to the plot
 years <- seq(1710, 1890, by = 10)
