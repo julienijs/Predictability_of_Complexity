@@ -109,12 +109,12 @@ morph_and_synt_model <- lm(morph_means ~ synt_means, data=morph_and_synt)
 summary(morph_and_synt_model)
 plot(allEffects(morph_and_synt_model))
 
-scp <- ggplot(morph_and_synt,
-              aes(x = synt_means, y = morph_means))+
-  xlab("Mean word order rigidity ratio")+
-  ylab("Mean morphological complexity ratio")+
-  geom_point()
-scp
+x <- ggplot(morph_and_synt, aes(x = synt_means, y = morph_means)) +
+  xlab("Mean word order rigidity ratio") +
+  ylab("Mean morphological complexity ratio") +
+  geom_point() +
+  scale_y_continuous(labels = function(y) gsub("-", "−", as.character(y)))   # Fix minus sign for y-axis
+x
 
 
 #### Time series analysis ####
