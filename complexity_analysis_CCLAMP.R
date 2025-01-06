@@ -132,7 +132,7 @@ years <- seq(1837, 1999, by = 1)
 # Create a plot without drawing the x-axis
 plot(years, z_scored_morph, type = "l", lty = 1, ylim = y_range, 
      ylab = "Z-Scored Values", 
-     xlab = "Year",  # Change x-axis label
+     xlab = "Time",  # Change x-axis label
      xaxt = "n",
      yaxt = "n")    
 
