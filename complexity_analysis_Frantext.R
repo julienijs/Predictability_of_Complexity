@@ -188,7 +188,8 @@ par(mar = c(8, 4, 2, 2))  # Increase the bottom margin to 8
 plot(z_scored_morph, type = "l", lty = 1, ylim = y_range, 
      ylab = "Z-Scored Values", 
      xlab = "Time", 
-     xaxt = "n")  # Suppress drawing of the x-axis
+     xaxt = "n",
+     yaxt = "n")  # Suppress drawing of the x-axis
 
 # Add the second z-scored time series to the plot with a different line type
 lines(z_scored_synt, lty = 2)
@@ -207,3 +208,7 @@ tick_positions <- seq(1, length(z_scored_morph), length.out = length(years))
 
 axis(1, at = tick_positions, labels = years)
 
+# Custom y-axis labels with proper minus sign
+y_ticks <- seq(floor(min(y_range)), ceiling(max(y_range)), by = 1)  # Define y-tick positions
+y_labels <- gsub("-", "−", as.character(y_ticks))  # Replace hyphen with minus sign
+axis(2, at = y_ticks, labels = y_labels)  # Add y-axis with custom labels

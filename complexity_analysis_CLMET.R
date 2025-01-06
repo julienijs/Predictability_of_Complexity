@@ -164,28 +164,27 @@ m <- xyplot(morphology ~ Decade, tsDF, type = "l" , lwd=2)
 s <- xyplot(syntax ~ Decade, tsDF, type = "l", lwd=2)
 doubleYScale(m, s, add.ylab2 = TRUE, use.style=TRUE)
 
-
 # Z-scored plot
 
 # Z-score the time series
 z_scored_morph <- scale(morph_ts)
 z_scored_synt <- scale(synt_ts)
 
+# Define y-axis range for consistency
+y_range <- c(-3, 3)  # Assuming this range based on your plot limits
+
 # Adjust margins to allow space below the plot for the legend
 par(mar = c(8, 4, 2, 2))  # Increase the bottom margin to 8
 
 # Create a plot with the first z-scored time series
-plot(z_scored_morph, type = "l", lty = 1, ylim = c(-3, 3), 
+plot(z_scored_morph, type = "l", lty = 1, ylim = y_range, 
      ylab = "Z-Scored Values", 
      xlab = "Time",
-     xaxt = "n")
+     xaxt = "n",
+     yaxt = "n")
 
 # Add the second z-scored time series to the plot with a different line type
 lines(z_scored_synt, lty = 2)
-
-# Add a legend
-legend("bottom", legend = c("Morphological complexity", "Word order rigidity"), 
-       lty = c(1, 2), cex = 0.8, inset = c(0, -0.35), xpd = TRUE, horiz = TRUE)
 
 # Add years to the plot
 years <- seq(1710, 1890, by = 10)
@@ -193,3 +192,11 @@ years <- seq(1710, 1890, by = 10)
 tick_positions <- seq(1, length(z_scored_morph), length.out = length(years))
 axis(1, at = tick_positions, labels = years)
 
+# Custom y-axis labels with proper minus sign
+y_ticks <- seq(floor(min(y_range)), ceiling(max(y_range)), by = 1)  # Define y-tick positions
+y_labels <- gsub("-", "−", as.character(y_ticks))  # Replace hyphen with minus sign
+axis(2, at = y_ticks, labels = y_labels)  # Add y-axis with custom labels
+
+# Add a legend
+legend("bottom", legend = c("Morphological complexity", "Word order rigidity"), 
+       lty = c(1, 2), cex = 0.8, inset = c(0, -0.35), xpd = TRUE, horiz = TRUE)

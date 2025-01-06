@@ -133,7 +133,8 @@ years <- seq(1837, 1999, by = 1)
 plot(years, z_scored_morph, type = "l", lty = 1, ylim = y_range, 
      ylab = "Z-Scored Values", 
      xlab = "Year",  # Change x-axis label
-     xaxt = "n")    # Suppress drawing of x-axis ticks
+     xaxt = "n",
+     yaxt = "n")    
 
 # Add the second time series
 lines(years, z_scored_synt, type = "l", lty = 2)
@@ -141,6 +142,12 @@ lines(years, z_scored_synt, type = "l", lty = 2)
 # Add x-axis ticks
 axis(1, at = seq(1837, 1999, by = 20), labels = seq(1837, 1999, by = 20))
 
+# Custom y-axis labels with proper minus sign
+y_ticks <- seq(floor(min(y_range)), ceiling(max(y_range)), by = 1)  # Define y-tick positions
+y_labels <- gsub("-", "−", as.character(y_ticks))  # Replace hyphen with minus sign
+axis(2, at = y_ticks, labels = y_labels)  # Add y-axis with custom labels
+
 # Add legend
 legend("bottom", legend = c("Morphological complexity", "Word order rigidity"), 
        lty = c(1, 2), cex = 0.8, inset = c(0, -0.35), xpd = TRUE, horiz = TRUE)
+
